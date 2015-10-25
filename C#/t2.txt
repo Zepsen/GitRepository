@@ -1,0 +1,42 @@
+------------------------------
+2.
+
+create table Customers
+(
+	id int identity(1,1) primary key not null,
+	name varchar(50) not null
+	
+)
+
+create table Orders
+(
+	id int identity(1,1) primary key not null,
+	amount real not null,
+    customer_id int Foreign key (customer_id) references customers(id)
+	
+)
+
+insert into customers(name) values ('zepsen')
+insert into customers(name) values ('zepsen')
+insert into customers(name) values ('zepsen2')
+insert into customers(name) values ('zepsen3')
+
+insert into orders(amount,customer_id) values (123.00, 1) 
+insert into orders(amount,customer_id) values (123.00, 1) 
+insert into orders(amount,customer_id) values (76.00, 2) 
+insert into orders(amount,customer_id) values (75.00, 3) 
+
+2.1
+	Select name, sum(amount)
+	From orders o right join customers c
+	on o.customer_id = c.id
+	group by name
+2.2
+	SELECT name as [Customers] 
+	FROM Customers c 
+	WHERE 
+ 	NOT EXISTS 
+	(
+ 		 SELECT * FROM Orders o         
+  		WHERE o.customer_id = c.id
+	)
